@@ -74,6 +74,25 @@
 			<artifactId>flyway-mysql</artifactId>
 			<version>9.10.1</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>2.0.0-rc2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+
 
 	</dependencies>
 
@@ -90,6 +109,37 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-codegen-maven-plugin</artifactId>
+				<version>2.3.1</version>
+				<configuration>
+					<inputSpec>${project.basedir}/src/main/resources/api.json</inputSpec>
+					<configOptions>
+						<sourceFolder>main/java</sourceFolder>
+						<interfaceOnly>true</interfaceOnly>
+						<dateLibrary>java8</dateLibrary>
+					</configOptions>
+					<output>${project.build.directory}/generated-sources</output>
+					<language/>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<language>java</language>
+							<library>resttemplate</library>
+							<modelPackage>com.swagger.client.codegen.rest.model</modelPackage>
+							<apiPackage>com.swagger.client.codegen.rest.api</apiPackage>
+							<invokerPackage>com.swagger.client.codegen.rest.invoker</invokerPackage>
+							<generateApiTests>false</generateApiTests>
+							<inputSpec/>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
