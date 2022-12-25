@@ -1,0 +1,1833 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Swagger Petstore - OpenAPI 3.0",
+    "description": "",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "apiteam@swagger.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.11"
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  },
+  "servers": [
+    {
+      "url": "https://taskstore3.swagger.io/api/v3"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "client of the service",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "category",
+      "description": "cost category - service and product",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "maxLimit",
+      "description": "maximum limit for cost categories"
+    },
+    {
+      "name": "remainingLimit",
+      "description": "remaining limit from maximum limit for cost categories"
+    },
+    {
+      "name": "transaction",
+      "description": "to transfer customer funds to one of the expense categories"
+    },
+    {
+      "name": "exchangeRate",
+      "description": "for information on currency exchange rates"
+    }
+  ],
+  "paths": {
+    "/categories/categoryId/": {
+      "put": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Update an existing category",
+        "description": "Update an existing category by Id",
+        "operationId": "updateCategory",
+        "requestBody": {
+          "description": "Update an existent category in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Category not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:categories",
+              "read:categories"
+            ]
+          }
+        ]
+      }
+    },
+    "/categories/category": {
+      "post": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Add a new category to the store",
+        "description": "Add a new category to the store",
+        "operationId": "addCategory",
+        "requestBody": {
+          "description": "Create a new category in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Category"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:categories",
+              "read:categories"
+            ]
+          }
+        ]
+      }
+    },
+    "/categories/category/{categoryId}": {
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Find category by ID",
+        "description": "Returns a single category",
+        "operationId": "getCategoryById",
+        "parameters": [
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "ID of category to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Category not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:categories",
+              "read:categories"
+            ]
+          }
+        ]
+      }
+    },
+    "/categories": {
+      "get": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Returns a list of categories",
+        "operationId": "getAllCategories",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of categories",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/categories/{categoryId}": {
+      "delete": {
+        "tags": [
+          "category"
+        ],
+        "summary": "Deletes a category",
+        "description": "delete a category",
+        "operationId": "deleteCategory",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "categoryId",
+            "in": "path",
+            "description": "Category id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid category value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:categories",
+              "read:categories"
+            ]
+          }
+        ]
+      }
+    },
+    "/exchangeRates/getCurrent": {
+      "post": {
+        "tags": [
+          "exchangeRate"
+        ],
+        "summary": "Add a new exchangeRate to the store",
+        "description": "Add a new exchangeRate to the store",
+        "operationId": "addExchangeRate",
+        "requestBody": {
+          "description": "Create a new exchangeRate in the store",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeRate"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeRate"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ExchangeRate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRate"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRate"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:exchangeRates",
+              "read:exchangeRates"
+            ]
+          }
+        ]
+      }
+    },
+    "/exchangeRates/{exchangeRateId}": {
+      "get": {
+        "tags": [
+          "exchangeRate"
+        ],
+        "summary": "Find exchangeRate by ID",
+        "description": "Returns a single exchangeRate",
+        "operationId": "getExchangeRateById",
+        "parameters": [
+          {
+            "name": "exchangeRateId",
+            "in": "path",
+            "description": "ID of exchangeRate to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRate"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExchangeRate"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "ExchangeRate not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:exchangeRates",
+              "read:exchangeRates"
+            ]
+          }
+        ]
+      }
+    },
+    "/exchangeRates": {
+      "get": {
+        "tags": [
+          "exchangeRate"
+        ],
+        "summary": "Returns a list of exchangeRates",
+        "operationId": "getAllExchangeRates",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of exchangeRates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ExchangeRate"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maxLimits/maxLimitId/": {
+      "put": {
+        "tags": [
+          "maxLimit"
+        ],
+        "summary": "Update an existing maxLimit",
+        "description": "Update an existing maxLimit by Id",
+        "operationId": "update MaxLimit",
+        "requestBody": {
+          "description": "Update an existent maxLimit",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "MaxLimit not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:maxLimits",
+              "read:maxLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/maxLimits/maxLimit": {
+      "post": {
+        "tags": [
+          "maxLimit"
+        ],
+        "summary": "Add a new maxLimit",
+        "description": "Add a new maxLimit",
+        "operationId": "addMaxLimit",
+        "requestBody": {
+          "description": "Create a new maxLimit",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MaxLimit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:maxLimits",
+              "read:maxLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/maxLimits/maxLimit/{maxLimitId}": {
+      "get": {
+        "tags": [
+          "maxLimit"
+        ],
+        "summary": "Find maxLimit by ID",
+        "description": "Returns a single maxLimit",
+        "operationId": "getMaxLimitById",
+        "parameters": [
+          {
+            "name": "maxLimitId",
+            "in": "path",
+            "description": "ID of maxLimit to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/MaxLimit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "MaxLimit not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:maxLimits",
+              "read:maxLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/maxLimits": {
+      "get": {
+        "tags": [
+          "maxLimit"
+        ],
+        "summary": "Returns a list of maxLimits",
+        "operationId": "getAllMaxLimits",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of maxLimits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MaxLimit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/maxLimits/{maxLimitId}": {
+      "delete": {
+        "tags": [
+          "maxLimit"
+        ],
+        "summary": "Deletes a maxLimit",
+        "description": "delete a maxLimit",
+        "operationId": "deleteMaxLimit",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "maxLimitId",
+            "in": "path",
+            "description": "MaxLimit id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid maxLimit value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:maxLimits",
+              "read:maxLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/remainingLimits/remainingLimitId/": {
+      "put": {
+        "tags": [
+          "remainingLimit"
+        ],
+        "summary": "Update an existing remainingLimit",
+        "description": "Update an existing remainingLimit by Id",
+        "operationId": "update RemainingLimits",
+        "requestBody": {
+          "description": "Update an existent remainingLimit",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "RemainingLimit not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:remainingLimits",
+              "read:remainingLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/remainingLimits/remainingLimit": {
+      "post": {
+        "tags": [
+          "remainingLimit"
+        ],
+        "summary": "Add a new remainingLimit",
+        "description": "Add a new remainingLimit",
+        "operationId": "addRemainingLimit",
+        "requestBody": {
+          "description": "Create a new remainingLimit",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/RemainingLimit"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:remainingLimits",
+              "read:remainingLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/remainingLimits/remainingLimit/{remainingLimitId}": {
+      "get": {
+        "tags": [
+          "remainingLimit"
+        ],
+        "summary": "Find remainingLimit by ID",
+        "description": "Returns a single remainingLimit",
+        "operationId": "getRemainingLimitById",
+        "parameters": [
+          {
+            "name": "remainingLimitId",
+            "in": "path",
+            "description": "ID of remainingLimit to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/RemainingLimit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "RemainingLimit not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:remainingLimits",
+              "read:remainingLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/remainingLimits": {
+      "get": {
+        "tags": [
+          "remainingLimit"
+        ],
+        "summary": "Returns a list of remainingLimits",
+        "operationId": "getAllRemainingLimits",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of remainingLimits",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RemainingLimit"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/remainingLimits/{remainingLimitId}": {
+      "delete": {
+        "tags": [
+          "remainingLimit"
+        ],
+        "summary": "Deletes a remainingLimit",
+        "description": "delete a remainingLimit",
+        "operationId": "deleteRemainingLimit",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "remainingLimitId",
+            "in": "path",
+            "description": "RemainingLimit id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid remainingLimit value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:remainingLimits",
+              "read:remainingLimits"
+            ]
+          }
+        ]
+      }
+    },
+    "/transactions/transactionId/": {
+      "put": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Update an existing transaction",
+        "description": "Update an existing transaction by Id",
+        "operationId": "update Transaction",
+        "requestBody": {
+          "description": "Update an existent Transaction",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Transaction not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:transactions",
+              "read:transactions"
+            ]
+          }
+        ]
+      }
+    },
+    "/transactions/transaction": {
+      "post": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Add a new transaction",
+        "description": "Add a new transaction",
+        "operationId": "addTransaction",
+        "requestBody": {
+          "description": "Create a new transaction",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:transactions",
+              "read:transactions"
+            ]
+          }
+        ]
+      }
+    },
+    "/transactions/transaction/{transactionId}": {
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Find transaction by ID",
+        "description": "Returns a single transaction",
+        "operationId": "getTransactionById",
+        "parameters": [
+          {
+            "name": "transactionId",
+            "in": "path",
+            "description": "ID of transaction to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Transaction not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:transactions",
+              "read:transactions"
+            ]
+          }
+        ]
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Returns a list of transactions",
+        "operationId": "getAllTransactions",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of transactions",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transactions/{transactionId}": {
+      "delete": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Deletes a transaction",
+        "description": "delete a transaction",
+        "operationId": "deleteTransaction",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "transactionId",
+            "in": "path",
+            "description": "Transaction id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid transaction value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:transactions",
+              "read:transactions"
+            ]
+          }
+        ]
+      }
+    },
+    "/transactions/limitExceeded=true": {
+      "get": {
+        "tags": [
+          "transaction"
+        ],
+        "summary": "Returns a list of transactions which limit_exceeded=true",
+        "operationId": "getAllTransactions",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of transactions which limit_exceeded=true",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/userId/": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Update an existing user",
+        "description": "Update an existing user by Id",
+        "operationId": "update User",
+        "requestBody": {
+          "description": "Update an existent User",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      }
+    },
+    "/users/user": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Add a new user",
+        "description": "Add a new user",
+        "operationId": "addUser",
+        "requestBody": {
+          "description": "Create a new user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Invalid input"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      }
+    },
+    "/users/user/{userId}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Find user by ID",
+        "description": "Returns a single user",
+        "operationId": "getUserById",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user to return",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          },
+          {
+            "petstore_auth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Returns a list of users",
+        "operationId": "getAllUsers",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of users",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes a user",
+        "description": "delete a user",
+        "operationId": "deleteUser",
+        "parameters": [
+          {
+            "name": "api_key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id to delete",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid user value"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:users",
+              "read:users"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the category."
+          },
+          "categoryType": {
+            "type": "string",
+            "description": "The type of the category."
+          },
+          "account_number": {
+            "type": "string",
+            "description": "The account number associated with the category."
+          },
+          "account_name": {
+            "type": "string",
+            "description": "The name of the account associated with the category."
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency used for the category."
+          },
+          "balance": {
+            "type": "number",
+            "format": "double",
+            "description": "The balance of the category."
+          }
+        },
+        "xml": {
+          "name": "category"
+        }
+      },
+      "ExchangeRate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the exchange rate."
+          },
+          "symbol": {
+            "type": "string",
+            "description": "The currency symbol for the exchange rate."
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time for the exchange rate."
+          },
+          "closeValue": {
+            "type": "number",
+            "format": "double",
+            "description": "The close value for the exchange rate."
+          }
+        },
+        "xml": {
+          "name": "exchangeRate"
+        }
+      },
+      "MaxLimit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the maximum limit."
+          },
+          "currencyUSD": {
+            "type": "string",
+            "description": "The currency for the maximum limit, in USD."
+          },
+          "product_max_limit": {
+            "type": "number",
+            "format": "double",
+            "description": "The maximum limit for product purchases."
+          },
+          "service_max_limit": {
+            "type": "number",
+            "format": "double",
+            "description": "The maximum limit for service purchases."
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the maximum limit was set."
+          }
+        },
+        "xml": {
+          "name": "maxLimit"
+        }
+      },
+      "RemainingLimit": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the remaining limit."
+          },
+          "currencyUSD": {
+            "type": "string",
+            "description": "The currency for the remaining limit, in USD."
+          },
+          "product_remaining_limit": {
+            "type": "number",
+            "format": "double",
+            "description": "The remaining limit for product purchases."
+          },
+          "service_remaining_limit": {
+            "type": "number",
+            "format": "double",
+            "description": "The remaining limit for service purchases."
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time when the remaining limit was set."
+          }
+        },
+        "xml": {
+          "name": "remainingLimit"
+        }
+      },
+      "Transaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the transaction."
+          },
+          "account_from": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the account from which the transaction originates."
+          },
+          "account_to": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The ID of the account to which the transaction is sent."
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency of the transaction."
+          },
+          "sum": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount of the transaction."
+          },
+          "limitExceeded": {
+            "type": "boolean",
+            "description": "Whether the transaction exceeded the maximum limit."
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The date and time of the transaction."
+          }
+        },
+        "xml": {
+          "name": "transaction"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "The unique identifier for the user."
+          },
+          "account_number": {
+            "type": "string",
+            "description": "The account number of the user."
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the user."
+          },
+          "surname": {
+            "type": "string",
+            "description": "The surname of the user."
+          },
+          "currency": {
+            "type": "string",
+            "description": "The currency used by the user."
+          },
+          "userMaxLimit": {
+            "$ref": "#/components/schemas/MaxLimit"
+          },
+          "userRemainingLimit": {
+            "$ref": "#/components/schemas/RemainingLimit"
+          },
+          "balance": {
+            "type": "number",
+            "format": "double",
+            "description": "The balance of the user."
+          }
+        },
+        "xml": {
+          "name": "user"
+        }
+      }
+    },
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+            "scopes": {
+              "write:pets": "modify pets in your account",
+              "read:pets": "read your pets"
+            }
+          }
+        }
+      },
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header"
+      }
+    }
+  }
+}
